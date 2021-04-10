@@ -21,6 +21,7 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = 10;
 const BALL_RADIUS = 10;
 const WIN_CONDITION = 3;
+const PLAYER2_SPEED = 5;
 
 // calculate mouse position
 function calculateMousePos(evt) {
@@ -164,9 +165,9 @@ function resetBall() {
 
 function p2Move() {
 	if (player2Y + PADDLE_HEIGHT / 2 < ballY - PADDLE_HEIGHT / 3) {
-		player2Y += 3;
-	} else if (player2Y + PADDLE_HEIGHT / 2 + PADDLE_HEIGHT / 3) {
-		player2Y -= 3;
+		player2Y += PLAYER2_SPEED;
+	} else if (player2Y + PADDLE_HEIGHT / 2 > ballY + PADDLE_HEIGHT / 3) {
+		player2Y -= PLAYER2_SPEED;
 	}
 }
 
