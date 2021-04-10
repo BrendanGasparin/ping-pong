@@ -58,19 +58,23 @@ function draw() {
 	// fill canvas with black
 	drawRect(0, 0, canvas.width, canvas.height, 'black');
 
+	canvasContext.font = '80px "Press Start 2P"';
+
 	if (gameOver) {
 		canvasContext.fillStyle = 'white';
-		canvasContext.fillText('Ping Pong', 370, 100, 100);
+		canvasContext.fillText('Ping Pong', 345, 140, 100);
 
+		canvasContext.font = '20px "Press Start 2P"';
 		if (p1Score >= WIN_CONDITION) {
-			canvasContext.fillText('Player 1 Wins!', 360, 250);
+			canvasContext.fillText('Player 1 Wins!', 265, 250);
 		}
 		else if (p2Score >= WIN_CONDITION) {
-			canvasContext.fillText('Player 2 Wins!', 360, 250);
+			canvasContext.fillText('Player 2 Wins!', 265, 250);
 		}
 
 		canvasContext.fillStyle = 'white';
-		canvasContext.fillText("Click to continue...", 355, 500);
+		canvasContext.font = '20px "Press Start 2P"';
+		canvasContext.fillText("Click to Play", 270, 500);
 		return;
 	}
 
@@ -86,8 +90,8 @@ function draw() {
 	drawRect(canvas.width - PADDLE_THICKNESS, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
 	// draw scores
-	canvasContext.fillText(p1Score, 100, 100);
-	canvasContext.fillText(p2Score, canvas.width - 100, 100);
+	canvasContext.fillText(p1Score, 170, 100);
+	canvasContext.fillText(p2Score, canvas.width - 230, 100);
 }
 
 function move() {
