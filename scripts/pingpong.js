@@ -19,6 +19,7 @@ let p2Score = 0;
 let gameOver = true;
 const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = 10;
+const PADDLE_GAP = 10;
 const BALL_RADIUS = 10;
 const WIN_CONDITION = 3;
 const PLAYER2_SPEED = 5;
@@ -86,13 +87,13 @@ function draw() {
 	drawCircle(ballX, ballY, BALL_RADIUS, 'white');
 
 	// draw left paddle
-	drawRect(0, player1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+	drawRect(PADDLE_GAP, player1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
 	// draw right paddle
-	drawRect(canvas.width - PADDLE_THICKNESS, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+	drawRect(canvas.width - PADDLE_THICKNESS - PADDLE_GAP, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
 	// draw scores
-	canvasContext.fillText(p1Score, canvas.width * 0.25, 100);
+	canvasContext.fillText(p1Score, canvas.width / 4, 100);
 	canvasContext.fillText(p2Score, canvas.width * 0.75, 100);
 }
 
@@ -106,7 +107,19 @@ function move() {
 
 	p2Move();
 
-	if (ballX < 0) {
+	// if ball goes off left side of play field
+	if (ballX < 0 - BALL_RADIUS) {
+		p2Score++;
+		resetBall();
+	}
+	// if ball goes off right side of play field
+	else if (ballX > canvas.width + BALL_RADIUS) {
+		p1Score++;
+		resetBall();
+	}
+
+	// if ball is hitting the left paddle
+	if (ballX < PADDLE_GAP + PADDLE_THICKNESS && ballX > PADDLE_GAP) {
 		if (ballY > player1Y && ballY < player1Y + PADDLE_HEIGHT) {
 			ballXSpeed = -ballXSpeed;
 
@@ -114,20 +127,16 @@ function move() {
 			let deltaY = ballY - (player1Y + PADDLE_HEIGHT / 2);
 			ballYSpeed = deltaY * 0.35;
 		}
-		else {
-			p2Score++;
-			resetBall();
-		}
 	}
-	else if (ballX > canvas.width) {
+
+	// if ball is hitting the right paddle
+	if (ballX < canvas.width - PADDLE_GAP && ballX > canvas.width - PADDLE_THICKNESS - PADDLE_GAP) {
 		if (ballY > player2Y && ballY < player2Y + PADDLE_HEIGHT) {
 			ballXSpeed = -ballXSpeed;
 		}
-		else {
-			p1Score++;
-			resetBall();
-		}
 	}
+
+	// rebound ball if it hits the top or bottom of the playfield
 	if (ballY < BALL_RADIUS) {
 		ballYSpeed = -ballYSpeed;
 	}
@@ -158,10 +167,11 @@ function resetBall() {
 	if (p1Score >= WIN_CONDITION || p2Score >= WIN_CONDITION) {
 		gameOver = true;
 	}
-
-	ballXSpeed = -ballXSpeed;
-	ballX = canvas.width / 2;
-	ballY = canvas.height / 2;
+	else {
+		ballXSpeed = -ballXSpeed;
+		ballX = canvas.width / 2;
+		ballY = canvas.height / 2;
+	}
 }
 
 function p2Move() {
