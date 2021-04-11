@@ -6,6 +6,13 @@
 	udemy.com/course/code-your-first-game/
 */
 
+const PADDLE_HEIGHT = 100;
+const PADDLE_THICKNESS = 10;
+const PADDLE_GAP = 10;
+const BALL_RADIUS = 10;
+const WIN_CONDITION = 3;
+const PLAYER2_SPEED = 5;
+
 let canvas;
 let canvasContext;
 let ballX = 400;
@@ -17,12 +24,6 @@ let player2Y = 250;
 let p1Score = 0;
 let p2Score = 0;
 let gameOver = true;
-const PADDLE_HEIGHT = 100;
-const PADDLE_THICKNESS = 10;
-const PADDLE_GAP = 10;
-const BALL_RADIUS = 10;
-const WIN_CONDITION = 3;
-const PLAYER2_SPEED = 5;
 
 // calculate mouse position
 function calculateMousePos(evt) {
@@ -119,7 +120,7 @@ function move() {
 	}
 
 	// if ball is hitting the left paddle
-	if (ballX < PADDLE_GAP + PADDLE_THICKNESS && ballX > PADDLE_GAP) {
+	if (ballX < PADDLE_GAP + PADDLE_THICKNESS + BALL_RADIUS && ballX > PADDLE_GAP - BALL_RADIUS) {
 		if (ballY > player1Y && ballY < player1Y + PADDLE_HEIGHT) {
 			ballXSpeed = -ballXSpeed;
 
@@ -130,7 +131,7 @@ function move() {
 	}
 
 	// if ball is hitting the right paddle
-	if (ballX < canvas.width - PADDLE_GAP && ballX > canvas.width - PADDLE_THICKNESS - PADDLE_GAP) {
+	if (ballX < canvas.width - PADDLE_GAP + BALL_RADIUS && ballX > canvas.width - PADDLE_THICKNESS - PADDLE_GAP - BALL_RADIUS) {
 		if (ballY > player2Y && ballY < player2Y + PADDLE_HEIGHT) {
 			ballXSpeed = -ballXSpeed;
 		}
